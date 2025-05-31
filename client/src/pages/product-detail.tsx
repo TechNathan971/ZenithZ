@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, Heart, Share2, ShoppingCart } from "lucide-react";
 import { products } from "@/data/products";
+import { ProductCard } from "@/components/product-card";
 
 interface ProductDetailProps {
   productId?: string;
@@ -16,17 +17,20 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   const [selectedStorage, setSelectedStorage] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // For demo, get first iPhone product
-  const product = products.find(p => p.name.includes("iPhone 15 Pro")) || products[0];
+  // Find product by converting slug back to match product name
+  const product = products.find(p => {
+    const productSlug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return productSlug === productId;
+  }) || products[0];
 
-  useState(() => {
+  useEffect(() => {
     if (product.colors && product.colors.length > 0) {
       setSelectedColor(product.colors[0]);
     }
     if (product.storage && product.storage.length > 0) {
       setSelectedStorage(product.storage[0]);
     }
-  });
+  }, [product]);
 
   const relatedProducts = products.filter(p => 
     p.category === product.category && p.name !== product.name

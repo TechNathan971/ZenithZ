@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
+import { CartProvider } from "@/lib/cart-context";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Home from "@/pages/home";
@@ -17,7 +18,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
       <Route path="/products/:category">
-        {({ category }) => <Products category={category} />}
+        {(params) => <Products category={params.category} />}
       </Route>
       <Route path="/product/:id">
         {({ id }) => <ProductDetail productId={id} />}
