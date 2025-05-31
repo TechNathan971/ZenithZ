@@ -41,16 +41,18 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <TooltipProvider>
-          <div className="min-h-screen bg-white dark:bg-black">
-            <Navbar />
-            <main>
-              <Router />
-            </main>
-            <Footer />
-          </div>
-          <Toaster />
-        </TooltipProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <div className="min-h-screen bg-white dark:bg-black">
+              <Navbar />
+              <main>
+                <Router />
+              </main>
+              <Footer />
+            </div>
+            <Toaster />
+          </TooltipProvider>
+        </CartProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -3,11 +3,14 @@ import { Link, useLocation } from "wouter";
 import { Search, ShoppingBag, Menu, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/lib/theme";
+import { useCart } from "@/lib/cart-context";
 
 export function Navbar() {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { totalItems } = useCart();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navItems = [
@@ -74,9 +77,17 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white relative"
             >
               <ShoppingBag className="h-5 w-5" />
+              {totalItems > 0 && (
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                >
+                  {totalItems}
+                </Badge>
+              )}
             </Button>
             
             {/* Mobile menu */}

@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Product } from "@shared/schema";
+import { useCart } from "@/lib/cart-context";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Omit<Product, 'id'> & { id?: number };
@@ -17,7 +19,17 @@ export function ProductCard({
   onLearnMoreClick,
   variant = "default" 
 }: ProductCardProps) {
-  const handleBuyClick = () => {
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleBuyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    });
     onBuyClick?.(product);
   };
 
